@@ -1,7 +1,10 @@
 const userService=require('../services/userService');
+const userSchema=require('../utils/validators');
 
 const createUser = async(req,res)=>{
     try{
+        const {error}= userSchema.validate(req.body);
+        if(error) return res.status(400).json({error:error.details[0].message});
         const {name,email,password}=req.body;
         const existingUser=await userService.getUserByEmail(email);
         if(existingUser)return res.status(400).json({ error: "User already exists" });
@@ -22,8 +25,8 @@ const loginUser=async(req,res)=>
 {
     try{
         const { email, password } = req.body;
-        console.log(email);
-        console.log(password);
+        // console.log(email);
+        // console.log(password);
         const userWithToken = await userService.loginUser(email, password);
          
         if (!userWithToken) return res.status(401).json({ error: "Invalid email or password" });

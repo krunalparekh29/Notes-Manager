@@ -1,14 +1,18 @@
 const {Note,User} =require('../models');
+const { Op } = require("sequelize");
+
 
 const createNote = async (userId,title,content)=>{
   // console.log(userId,title,content);
     const note = await Note.create({title,content,userId});
-    console.log(note);
+    // console.log(note);
     return note;
 }
 
-const getAllNotesByUser= async(userId)=>{
-    return await Note.findAll(userId);
+const getAllNotesByUser=async(userId)=>{
+  // console.log(userId);
+    return await Note.findAll({where:{userId}});
+    
 }
 
 const getNoteById=async(id)=>{
@@ -30,10 +34,22 @@ const deleteNote=async(id)=>{
     return deleted?true:false;
 };
 
+const searchNoteByTitle=async(userId,query)=>{
+  const notes=await  Note.findAll({
+    where:{
+      userId:userId,
+      title:{[Op.iLike]:`${query}`},
+    }
+  })
+  // console.log(notes);
+  return notes;
+}
+
 module.exports={
   createNote,
   getAllNotesByUser,
   getNoteById,
   updateNote,
   deleteNote,
+  searchNoteByTitle,
 };

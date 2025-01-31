@@ -28,11 +28,11 @@ const loginUser=async(email,password)=>{
     //   console.log(user);
       if(!user) return null;
      const isMatch = await bcrypt.compare(password,user.password);
-     console.log(isMatch);
+    //  console.log(isMatch);
      if(!isMatch) return null;
-      console.log(process.env.JWT_SECRET);
+    //   console.log(process.env.JWT_SECRET);
      const token= jwt.sign({id:user.id,email:user.email},process.env.JWT_SECRET,{expiresIn:"1h"})
-     console.log(token);
+    //  console.log(token);
      return {user,token};
 }
 

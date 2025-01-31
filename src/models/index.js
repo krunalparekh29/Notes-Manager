@@ -11,4 +11,4 @@ const syncDB = async () => {
   }
 };
 
-module.exports = {sequelize, syncDB, Note,User};
+module.exports = {sequelize, syncDB,Note,User};
